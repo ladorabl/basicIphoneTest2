@@ -16,8 +16,5 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-
-      - name: Appdome build-2secure
-	uses: Appdome/github_build-2secure@1.3.2
-            
-
+      - name: iOS Build Action
+	uses: yukiarrr/ios-build-action@v1.11.0
