@@ -71,5 +71,3 @@ jobs:
           OUTPUT_APP_NAME: "AppdomebasiciPhoneTest.ipa"
           # Build to test option
           #BUILD_TO_TEST: None
-       - name: Echo APPDOME_SECURED_APP
-         run: echo $APPDOME_SECURED_APP
