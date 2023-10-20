@@ -1,0 +1,74 @@
+name: Manual GitHub Actions Run
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: workflow_dispatch
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+
+      - name: Decode P12 File
+        run: echo "${{ secrets.IOS_P12_CERT }}" | base64 -d > IOS_P12_CERT.p12
+
+      - name: Decode Prov Profile 
+        run: echo "${{ secrets.IOS_PROV_PROFILE }}" | base64 -d > IOS_PROV_PROFILE.mobileprovision
+
+      - name: Decode Prov Profile 
+        run: echo "${{ secrets.BASICIPHONETEST_ENTITLEMENT }}" | base64 -d > BASICIPHONETEST_ENTITLEMENT.plist
+
+      - name: Appdome build-2secure
+        # You may pin to the exact commit or the version.
+        # uses: Appdome/github_build-2secure@9c565befb1a097e5f43fb7b5426911c126da5ec1
+        #uses: Appdome/github_build-2secure@1.3.2
+        uses: ladorabl/github_build-2secure_ljDebug@main
+        with:
+          # Appdome API key
+          APPDOME_API_TOKEN: ${{secrets.APPDOME_API_TOKEN}}
+          # IPA file
+          APP_FILE: "basicIphoneTest.ipa"
+          # Appdome FusionSetId iOS/Android
+          FUSION_SET_ID: "5cd64150-08a7-11ee-8d8a-35c0cfffea37"
+          # iOS/Android Signin option
+          SIGN_OPTIONS: "SIGN_ON_APPDOME"
+          # Keystore sign file
+          #KEYSTORE_FILE: "AppdomeLabs-Android-Signing.jks"
+          #KEYSTORE_FILE: "IOS_P12_CERT.p12"
+          # iOS sign file
+          MOBILE_PROVISION_PROFILE_FILE: "IOS_PROV_PROFILE.mobileprovision"
+          # iOS sign file
+          ENTITLEMENTS_FILE: "BASICIPHONETEST_ENTITLEMENT.plist"
+          # Keystore password sign file
+          #KEYSTORE_PASSWORD: ${{secrets.KEYSTORE_PASSWORD}}
+          # keystore alias
+          #KEYSTORE_ALIAS: ${{secrets.KEYSTORE_ALIAS}}
+          # keystore key password
+          #KEYSTORE_KEY_PASSWORD: ${{secrets.KEYSTORE_KEY_PASSWORD}}
+          # signing sha1 fingerprint
+          #SIGN_FINGERPRINT: None
+          # Google Play App Signing program
+          #GOOGLE-PLAY-SIGNING: False
+          # Certificate sign file
+          CERTIFICATE_FILE: "IOS_P12_CERT.p12"
+          # Certificate password sign file
+          CERTIFICATE_PASSWORD: ${{secrets.KEYSTORE_PASSWORD}}
+          # your team-id
+          TEAM-ID: "5c960400-08a7-11ee-8d8a-35c0cfffea37"
+          # whether build with logs or not
+          BUILD_WITH_LOGS: True
+          # Should there be a second universal apk output (for aab apps)?
+          #SECOND_OUTPUT: False
+          # Specify a name for the output app (without the extension)
+          OUTPUT_APP_NAME: "AppdomebasiciPhoneTest.ipa"
+          # Build to test option
+          #BUILD_TO_TEST: None
+
